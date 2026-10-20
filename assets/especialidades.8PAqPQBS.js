@@ -1,0 +1,1 @@
+const s="Cirurgia plástica e estética",t="Oftalmologia",i="Dermatologia",r=[s,t,i],e="Outra";function c(a){return a?.especialidade===e?a.especialidadeOutra?.trim()||e:a?.especialidade??""}export{i as D,r as E,e as O,s as P,t as a,c as e};
