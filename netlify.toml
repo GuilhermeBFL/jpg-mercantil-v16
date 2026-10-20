@@ -1,0 +1,4 @@
+# Site estático: sem build, publica a pasta como está.
+[build]
+  publish = "."
+  command = ""
