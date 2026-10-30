@@ -1,13 +1,16 @@
 name: Manter o banco da JPG acordado
 on:
   schedule:
-    - cron: '17 11 */3 * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 jobs:
-  ping:
+  batimento:
     runs-on: ubuntu-latest
     steps:
-      - name: Chamar am_ping no Supabase
+      # grava e lê no banco de verdade (am_batimento); se falhar, a execução fica vermelha e o GitHub avisa por e-mail
+      - name: Chamar am_batimento no Supabase
         run: |
-          curl -fsS -X POST 'https://bdafbhiputiddxmlpena.supabase.co/rest/v1/rpc/am_ping' \
-            -H 'apikey: sb_publishable_EBgXoI1dkcR1pElj19QVRg_hLm06ZEB' -H 'Content-Type: application/json' -d '{}'
+          resposta=$(curl -fsS --max-time 30 --retry 2 --retry-delay 20 -X POST 'https://bdafbhiputiddxmlpena.supabase.co/rest/v1/rpc/am_batimento' \
+            -H 'apikey: sb_publishable_EBgXoI1dkcR1pElj19QVRg_hLm06ZEB' -H 'Content-Type: application/json' -d '{"p_origem":"github"}')
+          echo "$resposta"
+          echo "$resposta" | grep -q '"ok": *true'
